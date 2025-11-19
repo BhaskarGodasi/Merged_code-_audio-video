@@ -1,0 +1,40 @@
+/* Styles for jingles list inside CampaignList */
+.jingle-column {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.jingle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.jingle-play-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(2, 132, 199, 0.18);
+  font-size: 14px;
+}
+
+.jingle-play-btn.playing {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+}
+
+.jingle-title {
+  font-size: 0.95rem;
+  color: #034b63;
+}
+
+.jingle-title.muted {
+  color: #6b7280;
+}

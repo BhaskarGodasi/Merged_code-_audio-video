@@ -1,0 +1,94 @@
+.header-bar {
+	display: flex;
+	justify-content: center;
+	padding: 24px 40px;
+	background: linear-gradient(135deg, #0d9488 0%, #0891b2 50%, #0369a1 100%);
+	border-bottom: none;
+	box-shadow: 0 4px 20px rgba(13, 148, 136, 0.25);
+	box-sizing: border-box;
+}
+
+.header-inner {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	max-width: 1600px;
+	gap: 20px;
+}
+
+.header-left {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
+
+.header-title {
+	margin: 0;
+	font-size: 28px;
+	font-weight: 800;
+	color: #ffffff;
+	letter-spacing: -0.5px;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* App title red override */
+.header-title.app-title {
+	color: #fbbf24;
+	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Header logo */
+.app-logo {
+	width: 48px;
+	height: 48px;
+	object-fit: contain;
+	margin-right: 10px;
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.header-app-logo {
+	display: inline-block;
+}
+
+/* Slightly stronger title styling */
+.header-title.app-title {
+	font-weight: 800;
+	letter-spacing: -0.6px;
+}
+
+.header-subtitle {
+	margin: 6px 0 0;
+	color: #d1f3f7;
+	font-size: 14px;
+	font-weight: 500;
+}
+
+.icon-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 10px;
+	border: 2px solid rgba(255, 255, 255, 0.3);
+	background-color: rgba(255, 255, 255, 0.1);
+	color: #ffffff;
+	cursor: pointer;
+	font-size: 20px;
+	transition: all 0.2s ease;
+}
+
+.icon-button:hover {
+	background: rgba(255, 255, 255, 0.2);
+	border-color: rgba(255, 255, 255, 0.5);
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+@media (min-width: 960px) {
+	.icon-button {
+		display: none;
+	}
+}

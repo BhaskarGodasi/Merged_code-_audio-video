@@ -1,0 +1,253 @@
+.send-ads-page {
+	padding: 1.25rem;
+	max-width: 1400px;
+	margin: 0 auto;
+	overflow-x: hidden;
+}
+
+.page-header {
+	margin-bottom: 1.25rem;
+	background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
+	padding: 1.75rem;
+	border-radius: 16px;
+	box-shadow: 0 4px 16px rgba(13, 148, 136, 0.2);
+}
+
+.page-header h1 {
+	margin-bottom: 0.5rem;
+	color: #ffffff;
+	font-size: 1.75rem;
+	font-weight: 700;
+}
+
+.page-header p {
+	color: #d1f3f7;
+	font-size: 0.95rem;
+	margin-bottom: 0;
+	font-weight: 500;
+}
+
+.alert {
+	padding: 0.75rem 1rem;
+	border-radius: 6px;
+	margin-bottom: 1rem;
+	font-size: 0.9rem;
+}
+
+.alert-error {
+	background-color: #fef2f2;
+	border: 1px solid #fecaca;
+	color: #dc2626;
+}
+
+.send-ads-container {
+	display: grid;
+	grid-template-columns: 260px 1fr;
+	gap: 1.25rem;
+	min-width: 0;
+}
+
+@media (max-width: 1024px) {
+	.send-ads-container {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Device Selector Panel */
+.device-selector-panel {
+	background: #ffffff;
+	border-radius: 8px;
+	padding: 1rem;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	height: fit-content;
+	border: 1px solid #e5e7eb;
+}
+
+.device-selector-panel h2 {
+	font-size: 1rem;
+	margin-bottom: 0.875rem;
+	color: #1f2937;
+	font-weight: 600;
+}
+
+.device-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.625rem;
+}
+
+.device-card {
+	background: white;
+	border: 1px solid #e5e7eb;
+	border-radius: 6px;
+	padding: 0.875rem;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.device-card:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+	background-color: #f9fafb;
+}
+
+.device-card.selected {
+	border-color: #10b981;
+	background-color: #ecfdf5;
+}
+
+.device-card.online {
+	border-left: 3px solid #10b981;
+}
+
+.device-card.offline {
+	border-left: 3px solid #6b7280;
+}
+
+.device-card.error {
+	border-left: 3px solid #ef4444;
+}
+
+.device-name {
+	font-weight: 600;
+	color: #1f2937;
+	margin-bottom: 0.25rem;
+	font-size: 0.95rem;
+}
+
+.device-status {
+	font-size: 0.8rem;
+	color: #6b7280;
+	text-transform: capitalize;
+}
+
+.device-location {
+	font-size: 0.75rem;
+	color: #9ca3af;
+	margin-top: 0.25rem;
+}
+
+/* Schedule Config Panel */
+.schedule-config-panel {
+	background: #ffffff;
+	border-radius: 8px;
+	padding: 1.25rem;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	border: 1px solid #e5e7eb;
+	min-width: 0;
+	overflow-x: auto;
+}
+
+.schedule-config-panel h2 {
+	font-size: 1.25rem;
+	margin-bottom: 1rem;
+	color: #1f2937;
+	font-weight: 600;
+}
+
+.empty-state {
+	padding: 3rem 1.5rem;
+	text-align: center;
+	color: #6b7280;
+}
+
+.empty-state p {
+	font-size: 1rem;
+}
+
+/* Jingles Section */
+.jingles-section {
+	margin-top: 1.5rem;
+	padding-top: 1.5rem;
+	border-top: 1px solid #e5e7eb;
+}
+
+.section-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1rem;
+}
+
+.section-header h3 {
+	font-size: 1.1rem;
+	color: #1f2937;
+	font-weight: 600;
+}
+
+.btn {
+	padding: 0.5rem 1rem;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	font-weight: 500;
+	font-size: 0.875rem;
+	transition: all 0.2s;
+}
+
+.btn:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.btn-primary {
+	background-color: #10b981;
+	color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+	background-color: #059669;
+}
+
+.btn-secondary {
+	background-color: #6b7280;
+	color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+	background-color: #4b5563;
+}
+
+.btn-danger {
+	background-color: #ef4444;
+	color: white;
+}
+
+.btn-danger:hover:not(:disabled) {
+	background-color: #dc2626;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+	.send-ads-container {
+		grid-template-columns: 1fr;
+	}
+	
+	.devices-panel {
+		max-height: 300px;
+	}
+}
+
+@media (max-width: 768px) {
+	.send-ads-page {
+		padding: 1rem;
+	}
+	
+	.page-header h1 {
+		font-size: 1.5rem;
+	}
+	
+	.device-list {
+		gap: 0.5rem;
+	}
+	
+	.schedule-config-panel {
+		padding: 1rem;
+	}
+}
+
+@media (max-width: 968px) {
+	.send-ads-container {
+		grid-template-columns: 1fr;
+	}
+}

@@ -1,0 +1,200 @@
+.sidebar-toggle-btn {
+  color: #d1f3f7;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.sidebar-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+.sidebar {
+  width: 260px;
+  background: linear-gradient(180deg, #0f766e 0%, #0d6b69 50%, #0a5c63 100%);
+  color: #d1f3f7;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 20px;
+  transition: width 0.3s ease, padding 0.3s ease;
+  box-shadow: 2px 0 20px rgba(13, 148, 136, 0.25);
+  overflow: hidden;
+  overflow-x: hidden;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  border-right: 1px solid rgba(13, 148, 136, 0.3);
+}
+
+.sidebar.sidebar-collapsed {
+  width: 80px;
+  padding: 32px 12px;
+}
+
+.sidebar-brand {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 32px;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+/* App title override (yellow) */
+.sidebar-brand .app-title {
+  color: #fbbf24;
+  font-weight: 800;
+}
+
+/* Make sure long app names can wrap in the sidebar instead of getting cut off */
+.sidebar-brand .app-title {
+  font-size: 18px;
+  line-height: 1;
+  white-space: normal; /* allow wrapping */
+  word-break: break-word;
+  max-width: 160px; /* keep it within the brand area */
+}
+
+/* Sidebar logo */
+.sidebar-brand .app-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+/* Collapsed small logo */
+.app-logo-collapsed {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.sidebar-brand .brand-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-collapsed .sidebar-brand {
+  font-size: 18px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden; /* ensure no horizontal scroll appears inside nav */
+  padding-right: 6px; /* give room for vertical scrollbar without pushing content */
+}
+
+/* Custom scrollbar for the sidebar nav (WebKit + Blink) */
+.sidebar-nav::-webkit-scrollbar {
+  width: 8px;
+}
+.sidebar-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Firefox scrollbar styling */
+.sidebar-nav {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.sidebar-user-info {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.logout-btn {
+  color: #fed7aa !important;
+}
+
+.logout-btn:hover {
+  background: rgba(254, 215, 170, 0.15) !important;
+  color: #fef3c7 !important;
+}
+
+.sidebar-link {
+  padding: 14px 16px;
+  border-radius: 12px;
+  color: #d1f3f7;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.sidebar-collapsed .sidebar-link {
+  justify-content: center;
+  padding: 14px 8px;
+}
+
+.link-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.link-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+.sidebar-collapsed .sidebar-link:hover {
+  transform: scale(1.05);
+}
+
+.sidebar-link.active {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: #1e293b;
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+}
+
+@media (max-width: 960px) {
+  .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 100;
+    transform: translateX(-100%);
+  }
+
+  .sidebar-open {
+    transform: translateX(0);
+  }
+}

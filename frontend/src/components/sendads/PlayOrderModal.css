@@ -1,0 +1,256 @@
+.play-order-modal {
+	max-width: 800px;
+	max-height: 85vh;
+	overflow-y: auto;
+}
+
+.play-order-modal .modal-body {
+	padding: 20px;
+}
+
+/* Summary Section */
+.play-order-summary {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+	gap: 14px;
+	margin-bottom: 20px;
+}
+
+.info-note {
+	background: #fff3cd;
+	border-left: 4px solid #ffc107;
+	padding: 10px 14px;
+	border-radius: 6px;
+	margin-bottom: 20px;
+	font-size: 13px;
+	color: #856404;
+}
+
+.info-note strong {
+	color: #856404;
+}
+
+.summary-card {
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	color: white;
+	padding: 16px;
+	border-radius: 10px;
+	text-align: center;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.summary-label {
+	font-size: 13px;
+	opacity: 0.9;
+	margin-bottom: 6px;
+	font-weight: 500;
+}
+
+.summary-value {
+	font-size: 28px;
+	font-weight: 700;
+}
+
+/* Ad Counts Section */
+.ad-counts-section {
+	margin-bottom: 24px;
+}
+
+.ad-counts-section h3 {
+	font-size: 16px;
+	font-weight: 600;
+	margin-bottom: 12px;
+	color: #333;
+}
+
+.ad-counts-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+	gap: 10px;
+}
+
+.ad-count-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 14px;
+	background: #f8f9fa;
+	border-radius: 8px;
+	border-left: 4px solid #667eea;
+}
+
+.ad-name {
+	font-weight: 600;
+	color: #333;
+}
+
+.ad-count {
+	background: #667eea;
+	color: white;
+	padding: 4px 12px;
+	border-radius: 12px;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+/* Loops Section */
+.loops-section {
+	margin-bottom: 32px;
+}
+
+.loops-section h3 {
+	font-size: 18px;
+	font-weight: 600;
+	margin-bottom: 16px;
+	color: #333;
+}
+
+.loop-container {
+	margin-bottom: 24px;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.loop-header {
+	background: #667eea;
+	color: white;
+	padding: 12px 16px;
+	font-weight: 600;
+	font-size: 16px;
+}
+
+.loop-sequence {
+	padding: 16px;
+	background: #fafafa;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.ad-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 12px;
+	background: white;
+	border: 1px solid #e0e0e0;
+	border-radius: 6px;
+	font-size: 14px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+	transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ad-item:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.ad-position {
+	background: #667eea;
+	color: white;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 600;
+	font-size: 12px;
+	flex-shrink: 0;
+}
+
+.ad-title {
+	font-weight: 500;
+	color: #333;
+}
+
+/* Full Sequence Section */
+.full-sequence-section {
+	margin-bottom: 14px;
+}
+
+.full-sequence-section h3 {
+	font-size: 16px;
+	font-weight: 600;
+	margin-bottom: 12px;
+	color: #333;
+}
+
+.sequence-table-container {
+	max-height: 350px;
+	overflow-y: auto;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+}
+
+.sequence-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.sequence-table thead {
+	position: sticky;
+	top: 0;
+	background: #667eea;
+	color: white;
+	z-index: 10;
+}
+
+.sequence-table th {
+	padding: 10px;
+	text-align: left;
+	font-weight: 600;
+	font-size: 13px;
+}
+
+.sequence-table td {
+	padding: 10px;
+	border-bottom: 1px solid #f0f0f0;
+	font-size: 13px;
+}
+
+.sequence-table tbody tr:nth-child(even) {
+	background: #fafafa;
+}
+
+.sequence-table tbody tr:hover {
+	background: #f0f0ff;
+}
+
+.sequence-table .filename {
+	font-family: monospace;
+	font-size: 11px;
+	color: #666;
+}
+
+.repeat-note {
+	text-align: center;
+	margin-top: 10px;
+	font-size: 13px;
+	color: #667eea;
+	font-weight: 600;
+}
+
+/* Modal Footer */
+.play-order-modal .modal-footer {
+	padding: 14px 20px;
+	border-top: 1px solid #e0e0e0;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.play-order-modal .btn-primary {
+	padding: 8px 20px;
+	background: #667eea;
+	color: white;
+	border: none;
+	border-radius: 6px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background 0.2s;
+}
+
+.play-order-modal .btn-primary:hover {
+	background: #5568d3;
+}

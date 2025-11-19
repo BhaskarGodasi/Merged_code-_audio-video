@@ -1,0 +1,129 @@
+.jingle-schedule-form {
+	background: #ffffff;
+	padding: 1.5rem;
+	border-radius: 8px;
+	margin-bottom: 1.5rem;
+	border: 1px solid #e5e7eb;
+	overflow-x: auto;
+}
+
+.jingle-schedule-form.compact {
+	padding: 1rem;
+	background: #f9fafb;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+.form-grid-compact {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 0.75rem;
+	align-items: end;
+}
+
+@media (max-width: 1400px) {
+	.form-grid-compact {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+@media (max-width: 1200px) {
+	.form-grid-compact {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (max-width: 768px) {
+	.form-grid-compact {
+		grid-template-columns: 1fr;
+	}
+}
+
+.form-group-compact {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.form-group-compact label {
+	font-size: 0.85rem;
+	font-weight: 500;
+	color: #374151;
+}
+
+.form-group-compact input,
+.form-group-compact select {
+	padding: 0.5rem 0.75rem;
+	border: 1px solid #d1d5db;
+	border-radius: 6px;
+	font-size: 0.9rem;
+	transition: all 0.2s;
+}
+
+.form-group-compact input:focus,
+.form-group-compact select:focus {
+	outline: none;
+	border-color: #3b82f6;
+	box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.checkbox-group {
+	justify-content: center;
+	min-width: fit-content;
+}
+
+.checkbox-label-compact {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	cursor: pointer;
+	padding: 0.5rem 0.75rem;
+	background: #ffffff;
+	border-radius: 6px;
+	border: 1px solid #e5e7eb;
+	transition: all 0.2s;
+	white-space: nowrap;
+}
+
+.checkbox-label-compact:hover {
+	background: #f3f4f6;
+}
+
+.checkbox-label-compact input[type="checkbox"] {
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+}
+
+.checkbox-label-compact span {
+	font-size: 0.9rem;
+	font-weight: 500;
+	color: #374151;
+}
+
+.form-actions-compact {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+	.form-actions-compact {
+		grid-column: span 1;
+	}
+}
+
+.btn-sm {
+	padding: 0.5rem 1rem !important;
+	font-size: 0.85rem !important;
+	white-space: nowrap;
+}
+
+.help-text {
+	display: block;
+	font-size: 0.8rem;
+	color: #666;
+	font-weight: normal;
+	margin-top: 0.25rem;
+}
