@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const { Campaign, Jingle, Brand, Log, CampaignJingle, Client, Company, DeviceSchedule, DeviceScheduleJingle, Device } = require('../models');
+const { AudioCampaign, Jingle, Brand, Log, CampaignJingle, Client, Company, DeviceSchedule, DeviceScheduleJingle, Device } = require('../models');
 const asyncHandler = require('../utils/asyncHandler');
 const { campaignStatusFromDates } = require('../utils/helpers');
 const scheduleService = require('../services/scheduleService');
@@ -13,7 +13,7 @@ const listCampaigns = asyncHandler(async (req, res) => {
 		whereClause.brandId = req.user.brandId;
 	}
 
-	const campaigns = await Campaign.findAll({
+	const campaigns = await AudioCampaign.findAll({
 		where: whereClause,
 		include: [
 			{ model: Jingle, as: 'jingles' },
@@ -51,7 +51,7 @@ const listCampaigns = asyncHandler(async (req, res) => {
 });
 
 const getCampaignById = asyncHandler(async (req, res) => {
-	const campaign = await Campaign.findByPk(req.params.id, {
+	const campaign = await AudioCampaign.findByPk(req.params.id, {
 		include: [
 			{ model: Jingle, as: 'jingles' },
 			{ model: Brand, as: 'brand', attributes: ['id', 'name', 'contactPerson', 'email', 'phone'], include: [{ model: Company, as: 'company', attributes: ['id', 'name'] }] },
@@ -72,7 +72,7 @@ const getCampaignById = asyncHandler(async (req, res) => {
 const getCampaignAnalytics = asyncHandler(async (req, res) => {
 	const campaignId = req.params.id;
 
-	const campaign = await Campaign.findByPk(campaignId, {
+	const campaign = await AudioCampaign.findByPk(campaignId, {
 		include: [
 			{ 
 				model: Jingle, 
@@ -218,7 +218,7 @@ const createCampaign = asyncHandler(async (req, res) => {
 
 	payload.status = campaignStatusFromDates(payload.startDate, payload.endDate);
 
-	const campaign = await Campaign.create(payload);
+	const campaign = await AudioCampaign.create(payload);
 
 	// Set jingles for the campaign
 	const jingleIds = req.body.jingleIds.map(id => Number(id));
@@ -227,7 +227,7 @@ const createCampaign = asyncHandler(async (req, res) => {
 	await scheduleService.syncCampaignStatuses();
 
 	// Fetch campaign with jingles to return
-	const created = await Campaign.findByPk(campaign.id, {
+	const created = await AudioCampaign.findByPk(campaign.id, {
 		include: [
 			{ model: Jingle, as: 'jingles' },
 			{ model: Client, as: 'client', attributes: ['id', 'name'] },
@@ -238,7 +238,7 @@ const createCampaign = asyncHandler(async (req, res) => {
 });
 
 const updateCampaign = asyncHandler(async (req, res) => {
-	const campaign = await Campaign.findByPk(req.params.id);
+	const campaign = await AudioCampaign.findByPk(req.params.id);
 	if (!campaign) {
 		return res.status(404).json({ error: true, message: 'Campaign not found' });
 	}
@@ -274,7 +274,7 @@ const updateCampaign = asyncHandler(async (req, res) => {
 
 	await scheduleService.syncCampaignStatuses();
 
-	const updated = await Campaign.findByPk(req.params.id, {
+	const updated = await AudioCampaign.findByPk(req.params.id, {
 		include: [
 			{ model: Jingle, as: 'jingles' },
 			{ model: Client, as: 'client', attributes: ['id', 'name'] },
@@ -285,7 +285,7 @@ const updateCampaign = asyncHandler(async (req, res) => {
 });
 
 const deleteCampaign = asyncHandler(async (req, res) => {
-	const campaign = await Campaign.findByPk(req.params.id);
+	const campaign = await AudioCampaign.findByPk(req.params.id);
 	if (!campaign) {
 		return res.status(404).json({ error: true, message: 'Campaign not found' });
 	}

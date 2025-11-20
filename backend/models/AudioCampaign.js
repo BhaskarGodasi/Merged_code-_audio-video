@@ -2,8 +2,8 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
 
-const Campaign = sequelize.define(
-    'Campaign',
+const AudioCampaign = sequelize.define(
+    'AudioCampaign',
     {
         id: {
             type: DataTypes.INTEGER.UNSIGNED,
@@ -66,7 +66,7 @@ const Campaign = sequelize.define(
 );
 
 	// The beforeSave hook keeps the status aligned with the schedule window
-	Campaign.addHook('beforeSave', (campaign) => {
+	AudioCampaign.addHook('beforeSave', (campaign) => {
 		if (campaign.startDate && campaign.endDate) {
 			const today = new Date();
 			const start = new Date(campaign.startDate);
@@ -82,4 +82,4 @@ const Campaign = sequelize.define(
 		}
 	});
 
-module.exports = Campaign;
+module.exports = AudioCampaign;

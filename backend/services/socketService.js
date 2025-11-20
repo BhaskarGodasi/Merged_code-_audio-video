@@ -1,4 +1,5 @@
 const { Server } = require('socket.io');
+const jwt = require('jsonwebtoken');
 const { Device, Log } = require('../models');
 const { resolveCampaignForJingle } = require('../utils/logAttribution');
 const {
@@ -17,13 +18,13 @@ class SocketService {
 		const allowedOrigins = process.env.CLIENT_ORIGIN
 			? process.env.CLIENT_ORIGIN.split(',').map((origin) => origin.trim())
 			: ['http://localhost:5173'];
-		
+
 		this.io = new Server(httpServer, {
 			cors: {
 				origin: function (origin, callback) {
 					// Allow requests with no origin (like mobile apps or curl requests)
 					if (!origin) return callback(null, true);
-					
+
 					if (allowedOrigins.indexOf(origin) !== -1) {
 						callback(null, true);
 					} else {
@@ -34,44 +35,87 @@ class SocketService {
 			},
 		});
 
+		console.log("✅ Socket.IO initialized");
+
 		this.io.on('connection', (socket) => {
-		socket.on('device:register', async (payload, ack) => {
-			try {
-				const device = await this.registerDevice(socket, payload);
-				const playlistData = await getActiveCampaignsForDevice(device.id);
-				
-				console.log(`[socketService] Device ${device.id} registration - playlist items: ${playlistData.length}`);
-				
-				// Format response with playlist and playback window
-				let response = { 
-					success: true, 
-					deviceId: device.id, 
-					deviceName: device.name, 
-					playlist: playlistData.map(item => ({
-						id: item.jingleId,
-						title: item.title,
-						filePath: `uploads/jingles/${item.filename}`,
-					})),
-				};
-				
-				// Add playback window if exists (from first item)
-				if (playlistData.length > 0) {
-					response.playbackWindowStart = playlistData[0].playbackWindowStart;
-					response.playbackWindowEnd = playlistData[0].playbackWindowEnd;
-				}
-				
-				console.log(`[socketService] Sending registration response:`, JSON.stringify(response, null, 2));
-				
-				if (typeof ack === 'function') {
-					ack(response);
-				}
-			} catch (error) {
-				console.error(`[socketService] Device registration error:`, error);
-				if (typeof ack === 'function') {
-					ack({ success: false, message: error.message });
+			console.log("🔌 Socket connected:", socket.id);
+
+			// --- Merged Logic from utils/socket.js ---
+			// Auth for user/admin sockets
+			const token = socket.handshake.auth?.token || socket.handshake.query?.token;
+			if (token) {
+				try {
+					const decoded = jwt.verify(token, process.env.JWT_SECRET);
+					const userId = decoded?.id || decoded?.userId || decoded?.sub;
+					if (userId) {
+						socket.join(`user_${userId}`);
+						console.log(`👤 User ${userId} joined user_${userId}`);
+					}
+				} catch (err) {
+					console.warn("⚠️ Socket auth failed:", err.message);
 				}
 			}
-		});			socket.on('device:heartbeat', async ({ deviceId }, ack) => {
+
+			// Manual user room join
+			socket.on("join_user_room", (userId) => {
+				if (userId) {
+					socket.join(`user_${userId}`);
+					console.log(`🔗 Socket ${socket.id} joined user_${userId}`);
+				}
+			});
+
+			// Admin rooms
+			socket.on("join_admin_room", () => {
+				socket.join("admins");
+				console.log(`🔗 Socket ${socket.id} joined admins room`);
+			});
+
+			// Device room join
+			socket.on("join_device_room", (deviceId) => {
+				if (deviceId) {
+					socket.join(`device_${deviceId}`);
+					console.log(`📱 Device ${deviceId} joined device_${deviceId}`);
+				}
+			});
+			// -----------------------------------------
+
+			socket.on('device:register', async (payload, ack) => {
+				try {
+					const device = await this.registerDevice(socket, payload);
+					const playlistData = await getActiveCampaignsForDevice(device.id);
+
+					console.log(`[socketService] Device ${device.id} registration - playlist items: ${playlistData.length}`);
+
+					// Format response with playlist and playback window
+					let response = {
+						success: true,
+						deviceId: device.id,
+						deviceName: device.name,
+						playlist: playlistData.map(item => ({
+							id: item.jingleId,
+							title: item.title,
+							filePath: `uploads/jingles/${item.filename}`,
+						})),
+					};
+
+					// Add playback window if exists (from first item)
+					if (playlistData.length > 0) {
+						response.playbackWindowStart = playlistData[0].playbackWindowStart;
+						response.playbackWindowEnd = playlistData[0].playbackWindowEnd;
+					}
+
+					console.log(`[socketService] Sending registration response:`, JSON.stringify(response, null, 2));
+
+					if (typeof ack === 'function') {
+						ack(response);
+					}
+				} catch (error) {
+					console.error(`[socketService] Device registration error:`, error);
+					if (typeof ack === 'function') {
+						ack({ success: false, message: error.message });
+					}
+				}
+			}); socket.on('device:heartbeat', async ({ deviceId }, ack) => {
 				if (!deviceId) {
 					if (typeof ack === 'function') {
 						ack({ success: false, message: 'deviceId is required' });
@@ -115,12 +159,12 @@ class SocketService {
 						status: payload.status || 'completed',
 						details: payload.details || null,
 					});
-					console.log('[Socket] Playback log created:', { 
-						logId: log.id, 
-						deviceId: log.deviceId, 
+					console.log('[Socket] Playback log created:', {
+						logId: log.id,
+						deviceId: log.deviceId,
 						campaignId: log.campaignId || resolvedCampaignId || null,
 						jingleId: log.jingleId,
-						status: log.status 
+						status: log.status
 					});
 					if (typeof ack === 'function') {
 						ack({ success: true, logId: log.id });
@@ -150,7 +194,7 @@ class SocketService {
 				console.error('Stack Trace:');
 				console.error(payload.stackTrace);
 				console.error('════════════════════════════════════════');
-				
+
 				// Store crash log in database
 				try {
 					const crashPlaybackTime = payload.timestamp ? new Date(payload.timestamp) : new Date();
@@ -199,12 +243,12 @@ class SocketService {
 						isPlaying,
 						timestamp: Date.now(),
 					});
-					console.log(`[LiveRelay] Updated playback status for device ${deviceId}:`, { 
-						jingle: currentJingle?.title || 'none', 
+					console.log(`[LiveRelay] Updated playback status for device ${deviceId}:`, {
+						jingle: currentJingle?.title || 'none',
 						isPlaying,
-						position: position ? `${(position/1000).toFixed(1)}s` : '0s'
+						position: position ? `${(position / 1000).toFixed(1)}s` : '0s'
 					});
-					
+
 					// Broadcast status update to all connected web clients
 					this.io.emit('playback:status', {
 						deviceId,
@@ -216,7 +260,8 @@ class SocketService {
 				}
 			});
 
-			socket.on('disconnect', async () => {
+			socket.on('disconnect', async (reason) => {
+				console.log(`🔌 Disconnected ${socket.id}: ${reason}`);
 				const deviceId = this.findDeviceIdBySocket(socket.id);
 				if (deviceId) {
 					this.deviceSockets.delete(deviceId);
@@ -227,7 +272,16 @@ class SocketService {
 					);
 				}
 			});
+
+			socket.on("error", (error) => {
+				console.error("❌ Socket error:", error?.message || error);
+			});
 		});
+	}
+
+	getIO() {
+		if (!this.io) throw new Error('Socket server has not been initialised');
+		return this.io;
 	}
 
 	findDeviceIdBySocket(socketId) {
@@ -271,7 +325,7 @@ class SocketService {
 		device.pairedAt = device.pairedAt || new Date();
 		device.lastSeenAt = new Date();
 		device.ipAddress = ipAddress || socket.handshake.address || device.ipAddress;
-		
+
 		// Save location if provided (only on first pairing or if not already set)
 		if (latitude !== undefined && longitude !== undefined) {
 			if (!device.latitude || !device.longitude) {
@@ -321,22 +375,22 @@ class SocketService {
 
 		for (const [deviceId, socketId] of this.deviceSockets.entries()) {
 			const playlistData = await getActiveCampaignsForDevice(deviceId);
-			
+
 			// Format update with playlist and playback window
-			const update = { 
+			const update = {
 				playlist: playlistData.map(item => ({
 					id: item.jingleId,
 					title: item.title,
 					filePath: `uploads/jingles/${item.filename}`,
 				})),
 			};
-			
+
 			// Add playback window if exists
 			if (playlistData.length > 0) {
 				update.playbackWindowStart = playlistData[0].playbackWindowStart;
 				update.playbackWindowEnd = playlistData[0].playbackWindowEnd;
 			}
-			
+
 			this.io.to(socketId).emit('schedule:update', update);
 		}
 	}
@@ -351,7 +405,7 @@ class SocketService {
 		if (!this.io) {
 			throw new Error('Socket server has not been initialised');
 		}
-		
+
 		const socketId = this.deviceSockets.get(deviceId);
 		if (!socketId) {
 			throw new Error('Target device is not online');
