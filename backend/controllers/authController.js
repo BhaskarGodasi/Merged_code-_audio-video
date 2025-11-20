@@ -57,6 +57,7 @@ const login = asyncHandler(async (req, res) => {
 
   // Validate password
   const isPasswordValid = await user.validatePassword(password);
+  console.log(isPasswordValid , 'isPasswordValid');
   if (!isPasswordValid) {
     return res.status(401).json({ error: 'Invalid username or password' });
   }

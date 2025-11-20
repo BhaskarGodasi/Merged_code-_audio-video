@@ -1,5 +1,8 @@
 const sequelize = require('../config/database');
-const Campaign = require('./Campaign');
+
+// MODELS
+const AudioCampaign = require('./AudioCampaign');   // renamed model
+const VideoCampaign = require('./VideoCampaign');   // new model
 const Device = require('./Device');
 const Jingle = require('./Jingle');
 const Log = require('./Log');
@@ -10,140 +13,226 @@ const Company = require('./Company');
 const CampaignJingle = require('./CampaignJingle');
 const User = require('./User');
 
-// Company-Brand (Client) associations
+/* ---------------------------------------------------------
+   COMPANY ↔ BRAND ASSOCIATIONS
+--------------------------------------------------------- */
 
 Company.hasMany(Brand, {
-	foreignKey: 'companyId',
-	as: 'brands',
+    foreignKey: 'companyId',
+    as: 'brands',
 });
 
 Brand.belongsTo(Company, {
-	foreignKey: 'companyId',
-	as: 'company',
+    foreignKey: 'companyId',
+    as: 'company',
 });
 
-// User-Brand associations
+/* ---------------------------------------------------------
+   BRAND ↔ USER
+--------------------------------------------------------- */
+
 Brand.hasMany(User, {
-	foreignKey: 'brandId',
-	as: 'users',
+    foreignKey: 'brandId',
+    as: 'users',
 });
 
 User.belongsTo(Brand, {
-	foreignKey: 'brandId',
-	as: 'brand',
+    foreignKey: 'brandId',
+    as: 'brand',
 });
 
-// Backwards compatibility: several modules still request `client` alias
+// Backwards compatibility
 User.belongsTo(Brand, {
-	foreignKey: 'brandId',
-	as: 'client',
+    foreignKey: 'brandId',
+    as: 'client',
 });
 
-// Brand-Campaign associations
-Brand.hasMany(Campaign, {
-	foreignKey: 'brandId',
-	as: 'campaigns',
+/* ---------------------------------------------------------
+   BRAND ↔ AUDIO CAMPAIGN
+--------------------------------------------------------- */
+
+Brand.hasMany(AudioCampaign, {
+    foreignKey: 'brandId',
+    as: 'audioCampaigns',
 });
 
-Campaign.belongsTo(Brand, {
-	foreignKey: 'brandId',
-	as: 'brand',
+AudioCampaign.belongsTo(Brand, {
+    foreignKey: 'brandId',
+    as: 'brand',
 });
 
-// Legacy alias support when includes still reference `client`
-Campaign.belongsTo(Brand, {
-	foreignKey: 'brandId',
-	as: 'client',
+// Backwards compatibility for old includes using 'client'
+AudioCampaign.belongsTo(Brand, {
+    foreignKey: 'brandId',
+    as: 'client',
 });
 
-// Many-to-many Campaign-Jingle relationship
-Campaign.belongsToMany(Jingle, {
-	through: CampaignJingle,
-	foreignKey: 'campaignId',
-	otherKey: 'jingleId',
-	as: 'jingles',
+/* ---------------------------------------------------------
+   BRAND ↔ VIDEO CAMPAIGN
+--------------------------------------------------------- */
+
+Brand.hasMany(VideoCampaign, {
+    foreignKey: 'brandId',
+    as: 'videoCampaigns',
 });
 
-Jingle.belongsToMany(Campaign, {
-	through: CampaignJingle,
-	foreignKey: 'jingleId',
-	otherKey: 'campaignId',
-	as: 'campaigns',
+VideoCampaign.belongsTo(Brand, {
+    foreignKey: 'brandId',
+    as: 'brand',
 });
+
+// Backwards compatibility for old code
+VideoCampaign.belongsTo(Brand, {
+    foreignKey: 'brandId',
+    as: 'client',
+});
+
+/* ---------------------------------------------------------
+   AUDIO CAMPAIGN ↔ JINGLE (Many-to-Many)
+--------------------------------------------------------- */
+
+AudioCampaign.belongsToMany(Jingle, {
+    through: CampaignJingle,
+    foreignKey: 'campaignId',
+    otherKey: 'jingleId',
+    as: 'jingles',
+});
+
+Jingle.belongsToMany(AudioCampaign, {
+    through: CampaignJingle,
+    foreignKey: 'jingleId',
+    otherKey: 'campaignId',
+    as: 'audioCampaigns',
+});
+
+/* ---------------------------------------------------------
+   VIDEO CAMPAIGN ↔ JINGLE (OPTIONAL)
+   (If video campaigns don't use jingles, skip this)
+--------------------------------------------------------- */
+
+// If jingles are only for audio campaigns, do NOT connect video campaigns
+// If video campaigns will also use jingles, uncomment below:
+
+// VideoCampaign.belongsToMany(Jingle, {
+//     through: CampaignJingle,
+//     foreignKey: 'campaignId',
+//     otherKey: 'jingleId',
+//     as: 'jingles',
+// });
+
+// Jingle.belongsToMany(VideoCampaign, {
+//     through: CampaignJingle,
+//     foreignKey: 'jingleId',
+//     otherKey: 'campaignId',
+//     as: 'videoCampaigns',
+// });
+
+/* ---------------------------------------------------------
+   DEVICE ↔ LOG
+--------------------------------------------------------- */
 
 Device.hasMany(Log, {
-	foreignKey: 'deviceId',
-	as: 'logs',
+    foreignKey: 'deviceId',
+    as: 'logs',
 });
 
 Log.belongsTo(Device, {
-	foreignKey: 'deviceId',
-	as: 'device',
+    foreignKey: 'deviceId',
+    as: 'device',
 });
 
-Campaign.hasMany(Log, {
-	foreignKey: 'campaignId',
-	as: 'logs',
+/* ---------------------------------------------------------
+   AUDIO CAMPAIGN ↔ LOG
+--------------------------------------------------------- */
+
+AudioCampaign.hasMany(Log, {
+    foreignKey: 'campaignId',
+    as: 'logs',
 });
 
-Log.belongsTo(Campaign, {
-	foreignKey: 'campaignId',
-	as: 'campaign',
+Log.belongsTo(AudioCampaign, {
+    foreignKey: 'campaignId',
+    as: 'audioCampaign',
 });
+
+/* ---------------------------------------------------------
+   VIDEO CAMPAIGN ↔ LOG
+--------------------------------------------------------- */
+
+VideoCampaign.hasMany(Log, {
+    foreignKey: 'videoCampaignId',
+    as: 'videoLogs',
+});
+
+Log.belongsTo(VideoCampaign, {
+    foreignKey: 'videoCampaignId',
+    as: 'videoCampaign',
+});
+
+/* ---------------------------------------------------------
+   JINGLE ↔ LOG
+--------------------------------------------------------- */
 
 Jingle.hasMany(Log, {
-	foreignKey: 'jingleId',
-	as: 'logs',
+    foreignKey: 'jingleId',
+    as: 'logs',
 });
 
 Log.belongsTo(Jingle, {
-	foreignKey: 'jingleId',
-	as: 'jingle',
+    foreignKey: 'jingleId',
+    as: 'jingle',
 });
 
-// DeviceSchedule associations
+/* ---------------------------------------------------------
+   DEVICE SCHEDULE
+--------------------------------------------------------- */
+
 Device.hasMany(DeviceSchedule, {
-	foreignKey: 'deviceId',
-	as: 'schedules',
+    foreignKey: 'deviceId',
+    as: 'schedules',
 });
 
 DeviceSchedule.belongsTo(Device, {
-	foreignKey: 'deviceId',
-	as: 'device',
+    foreignKey: 'deviceId',
+    as: 'device',
 });
 
+/* ---------------------------------------------------------
+   DEVICE SCHEDULE ↔ JINGLES
+--------------------------------------------------------- */
+
 DeviceSchedule.hasMany(DeviceScheduleJingle, {
-	foreignKey: 'deviceScheduleId',
-	as: 'jingles',
+    foreignKey: 'deviceScheduleId',
+    as: 'jingles',
 });
 
 DeviceScheduleJingle.belongsTo(DeviceSchedule, {
-	foreignKey: 'deviceScheduleId',
-	as: 'schedule',
+    foreignKey: 'deviceScheduleId',
+    as: 'schedule',
 });
 
 DeviceScheduleJingle.belongsTo(Jingle, {
-	foreignKey: 'jingleId',
-	as: 'jingle',
+    foreignKey: 'jingleId',
+    as: 'jingle',
 });
 
 Jingle.hasMany(DeviceScheduleJingle, {
-	foreignKey: 'jingleId',
-	as: 'deviceScheduleJingles',
+    foreignKey: 'jingleId',
+    as: 'deviceScheduleJingles',
 });
 
 module.exports = {
-	sequelize,
-	Campaign,
-	Device,
-	Jingle,
-	Log,
-	DeviceSchedule,
-	DeviceScheduleJingle,
-	Brand,
-	// Backwards compatibility: some modules still import `Client`
-	Client: Brand,
-	Company,
-	CampaignJingle,
-	User,
+    sequelize,
+    AudioCampaign,
+    VideoCampaign,
+    Device,
+    Jingle,
+    Log,
+    DeviceSchedule,
+    DeviceScheduleJingle,
+    Brand,
+    Client: Brand, // backward compatibility
+    Company,
+    CampaignJingle,
+    User,
 };

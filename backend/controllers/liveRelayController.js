@@ -1,10 +1,10 @@
 const { Op } = require('sequelize');
-const { Device, DeviceSchedule, DeviceScheduleJingle, Jingle, Campaign, CampaignJingle } = require('../models');
+const { Device, DeviceSchedule, DeviceScheduleJingle, Jingle, AudioCampaign, CampaignJingle } = require('../models');
 const asyncHandler = require('../utils/asyncHandler');
 const socketService = require('../services/socketService');
 
 const resolveClientDeviceIds = async (brandId) => {
-	const campaigns = await Campaign.findAll({
+	const campaigns = await AudioCampaign.findAll({
 		where: { brandId },
 		attributes: ['id'],
 	});
