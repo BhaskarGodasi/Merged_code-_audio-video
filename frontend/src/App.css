@@ -4,15 +4,12 @@
   background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
 }
 
-.sidebar + .app-main {
-  flex: 1;
-}
-
 .app-main {
   display: flex;
   flex-direction: column;
   min-width: 0;
   width: 100%;
+  flex: 1;
 }
 
 .app-content {
@@ -25,11 +22,18 @@
   width: 100%;
 }
 
+.app-content.full-screen-content {
+  padding: 0;
+  max-width: none;
+  background: none;
+  margin: 0;
+}
+
 @media (min-width: 1200px) {
   .app-content {
     padding: 32px 48px;
   }
-} 
+}
 
 .page-heading {
   margin: 0 0 32px;
@@ -92,6 +96,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

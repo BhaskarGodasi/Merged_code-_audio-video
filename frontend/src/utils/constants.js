@@ -1,5 +1,5 @@
 export const NAV_LINKS = [
-	{ to: '/', label: 'Dashboard', icon: '📊' },
+	{ to: '/audio-dashboard', label: 'Dashboard', icon: '📊' },
 	{ to: '/companies', label: 'Companies', icon: '🏢' },
 	{ to: '/brands', label: 'Brands', icon: '🏷️' },
 	{ to: '/devices', label: 'Devices', icon: '📱' },
