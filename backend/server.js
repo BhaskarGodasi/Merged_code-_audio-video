@@ -19,6 +19,8 @@ const liveRelayRoutes = require('./routes/liveRelay');
 const { sequelize } = require('./models');
 const socketService = require('./services/socketService');
 const scheduleService = require('./services/scheduleService');
+const videoCampaignRoutes = require('./routes/videoCampaignRoutes');
+const videoDeviceRoutes = require('./routes/videoDeviceRoutes');
 
 const app = express();
 
@@ -40,7 +42,7 @@ app.use(
 		origin: function (origin, callback) {
 			// Allow requests with no origin (like mobile apps or curl requests)
 			if (!origin) return callback(null, true);
-			
+
 			if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.includes('*')) {
 				callback(null, true);
 			} else {
@@ -75,6 +77,8 @@ app.use('/api/brands', brandRoutes);
 app.use('/api/companies', companyRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/live-relay', liveRelayRoutes);
+app.use('/api/video-campaigns', videoCampaignRoutes);
+app.use('/api/video-devices', videoDeviceRoutes);
 
 app.use(errorHandler);
 
@@ -84,14 +88,17 @@ const server = http.createServer(app);
 
 const bootstrap = async () => {
 	try {
-			await sequelize.authenticate();
+		await sequelize.authenticate();
 
-			if ((process.env.DB_SYNC || '').toLowerCase() === 'true') {
-				await sequelize.sync();
-			}
+		console.log(`DB Name: ${process.env.DB_NAME}`);
+
+		if ((process.env.DB_SYNC || '').toLowerCase() === 'true') {
+			await sequelize.sync();
+		}
 		await scheduleService.syncCampaignStatuses();
 
 		socketService.init(server);
+		app.set('io', socketService.getIO());
 
 		server.listen(port, hostname, () => {
 			// eslint-disable-next-line no-console

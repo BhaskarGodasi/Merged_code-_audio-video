@@ -1,6 +1,6 @@
 const { Op } = require('sequelize');
 const { validationResult } = require('express-validator');
-const { Log, Device, Campaign, Jingle, CampaignJingle } = require('../models');
+const { Log, Device, AudioCampaign, Jingle, CampaignJingle } = require('../models');
 const asyncHandler = require('../utils/asyncHandler');
 const { buildLogsWorkbookBuffer } = require('../utils/excelExport');
 const {
@@ -42,7 +42,7 @@ const buildFilters = async (query) => {
 	
 	// Support filtering by campaign name (replaces campaignId filtering)
 	if (query.campaignName) {
-		const campaigns = await Campaign.findAll({
+		const campaigns = await AudioCampaign.findAll({
 			where: {
 				campaignName: { [Op.like]: `%${query.campaignName}%` }
 			}
@@ -142,7 +142,7 @@ const buildFilters = async (query) => {
 };
 
 const applyClientScope = async (whereClause, brandId) => {
-	const clientCampaigns = await Campaign.findAll({
+	const clientCampaigns = await AudioCampaign.findAll({
 		where: { brandId },
 		attributes: ['id'],
 	});
@@ -230,7 +230,7 @@ const listLogs = asyncHandler(async (req, res) => {
 		where: whereClause,
 		include: [
 			{ model: Device, as: 'device' },
-			{ model: Campaign, as: 'campaign' },
+			{ model: AudioCampaign, as: 'audioCampaign' },
 			{ model: Jingle, as: 'jingle' },
 		],
 		order: [['playbackAt', 'DESC']],
@@ -284,7 +284,7 @@ const exportLogs = asyncHandler(async (req, res) => {
 		where: whereClause,
 		include: [
 			{ model: Device, as: 'device' },
-			{ model: Campaign, as: 'campaign' },
+			{ model: AudioCampaign, as: 'audioCampaign' },
 			{ model: Jingle, as: 'jingle' },
 		],
 		order: [['playbackAt', 'DESC']],

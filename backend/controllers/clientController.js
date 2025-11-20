@@ -1,4 +1,4 @@
-const { Brand, Campaign, Log, Jingle, Device, Company } = require('../models');
+const { Brand, AudioCampaign, Log, Jingle, Device, Company } = require('../models');
 const asyncHandler = require('../utils/asyncHandler');
 const { Op } = require('sequelize');
 const sequelize = require('../config/database');
@@ -17,8 +17,8 @@ const listClients = asyncHandler(async (req, res) => {
 		where,
 		include: [
 			{
-				model: Campaign,
-				as: 'campaigns',
+				model: AudioCampaign,
+				as: 'audioCampaigns',
 				attributes: [],
 			},
 			{
@@ -103,7 +103,7 @@ const getClientAnalytics = asyncHandler(async (req, res) => {
 	}
 
 	// Get all campaigns for this brand (with associated jingles)
-	const campaigns = await Campaign.findAll({
+	const campaigns = await AudioCampaign.findAll({
 		where: { brandId },
 		include: [
 			{

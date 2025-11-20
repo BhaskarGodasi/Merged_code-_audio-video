@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const { Device, Jingle, Campaign, Log } = require('../models');
+const { Device, Jingle, AudioCampaign, Log } = require('../models');
 const asyncHandler = require('../utils/asyncHandler');
 const { generatePairingCode } = require('../utils/helpers');
 const socketService = require('../services/socketService');
@@ -11,7 +11,7 @@ const listDevices = asyncHandler(async (req, res) => {
 	// For client users, show only devices that have played their campaigns
 	if (req.user && req.user.role === 'client' && req.user.brandId) {
 		// Get all campaigns for this client
-		const clientCampaigns = await Campaign.findAll({
+		const clientCampaigns = await AudioCampaign.findAll({
 			where: { brandId: req.user.brandId },
 			attributes: ['id']
 		});
@@ -75,7 +75,7 @@ const getDeviceById = asyncHandler(async (req, res) => {
 					limit: 20,
 					order: [['createdAt', 'DESC']],
 					include: [
-						{ model: Campaign, as: 'campaign' },
+						{ model: AudioCampaign, as: 'audiocampaign' },
 						{ model: Jingle, as: 'jingle' },
 					],
 				},
@@ -146,7 +146,7 @@ const dispatchPlayCommand = asyncHandler(async (req, res) => {
 	}
 
 	const { campaignId, jingleId } = req.body;
-	const campaign = await Campaign.findByPk(campaignId);
+	const campaign = await AudioCampaign.findByPk(campaignId);
 	const jingle = await Jingle.findByPk(jingleId);
 
 	if (!campaign || !jingle) {

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { validationResult } = require('express-validator');
-const { Jingle, Campaign, DeviceScheduleJingle, Log, CampaignJingle } = require('../models');
+const { Jingle, AudioCampaign, DeviceScheduleJingle, Log, CampaignJingle } = require('../models');
 const asyncHandler = require('../utils/asyncHandler');
 
 const listJingles = asyncHandler(async (_req, res) => {

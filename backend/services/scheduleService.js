@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const { Campaign, Jingle, DeviceSchedule, DeviceScheduleJingle } = require('../models');
+const { AudioCampaign, Jingle, DeviceSchedule, DeviceScheduleJingle } = require('../models');
 const { campaignStatusFromDates, generateAdPlayOrder } = require('../utils/helpers');
 
 const buildCampaignPayload = (campaign) => {
@@ -9,7 +9,7 @@ const buildCampaignPayload = (campaign) => {
 };
 
 const syncCampaignStatuses = async () => {
-	const campaigns = await Campaign.findAll();
+	const campaigns = await AudioCampaign.findAll();
 	await Promise.all(
 		campaigns.map(async (campaign) => {
 			const status = campaignStatusFromDates(
@@ -106,9 +106,9 @@ const getActiveCampaignsForDevice = async (deviceId) => {
 
 const getScheduleSummary = async () => {
 	const [scheduled, active, completed] = await Promise.all([
-		Campaign.count({ where: { status: 'scheduled' } }),
-		Campaign.count({ where: { status: 'active' } }),
-		Campaign.count({ where: { status: 'completed' } }),
+		AudioCampaign.count({ where: { status: 'scheduled' } }),
+		AudioCampaign.count({ where: { status: 'active' } }),
+		AudioCampaign.count({ where: { status: 'completed' } }),
 	]);
 
 	return { scheduled, active, completed };
