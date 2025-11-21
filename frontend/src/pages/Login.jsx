@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './Login.css';
@@ -11,7 +11,13 @@ export default function Login() {
 	const [error, setError] = useState('');
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
-	const { login } = useAuth();
+	const { login, user } = useAuth();
+
+	useEffect(() => {
+		if (user) {
+			navigate('/');
+		}
+	}, [user, navigate]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -29,7 +35,7 @@ export default function Login() {
 
 		try {
 			await login(formData.username, formData.password);
-			navigate('/'); // Redirect to dashboard after successful login
+			navigate('/'); // Redirect to dashboard selection after successful login
 		} catch (err) {
 			const errorMessage = err.response?.data?.error || 'Login failed. Please try again.';
 			setError(errorMessage);

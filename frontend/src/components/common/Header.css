@@ -11,7 +11,7 @@
 .header-inner {
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
 	width: 100%;
 	max-width: 1600px;
 	gap: 20px;
@@ -21,6 +21,12 @@
 	display: flex;
 	align-items: center;
 	gap: 20px;
+}
+
+.header-right {
+	display: flex;
+	align-items: center;
+	gap: 12px;
 }
 
 .header-title {
@@ -34,32 +40,26 @@
 
 /* App title red override */
 .header-title.app-title {
-	color: #fbbf24;
+	color: #f7f7f7;
 	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	font-weight: 800;
+	letter-spacing: -0.6px;
+	align-items: center;
 }
 
 /* Header logo */
 .app-logo {
-	width: 48px;
-	height: 48px;
-	object-fit: contain;
-	margin-right: 10px;
-	border-radius: 10px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	width: 65px;
+	height: 65px;
+	margin-right: 2px;
 }
 
 .header-app-logo {
 	display: inline-block;
 }
 
-/* Slightly stronger title styling */
-.header-title.app-title {
-	font-weight: 800;
-	letter-spacing: -0.6px;
-}
-
 .header-subtitle {
-	margin: 6px 0 0;
+	margin: 2px 0 0;
 	color: #d1f3f7;
 	font-size: 14px;
 	font-weight: 500;
@@ -90,5 +90,132 @@
 @media (min-width: 960px) {
 	.icon-button {
 		display: none;
+	}
+}
+
+/* Header Right Section Styles */
+.header-nav-button {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 16px;
+	border-radius: 10px;
+	border: 2px solid rgba(255, 255, 255, 0.3);
+	background-color: rgba(255, 255, 255, 0.15);
+	color: #ffffff;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 600;
+	transition: all 0.2s ease;
+}
+
+.header-nav-button:hover {
+	background: rgba(255, 255, 255, 0.25);
+	border-color: rgba(255, 255, 255, 0.5);
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+.nav-button-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.nav-button-text {
+	font-family: inherit;
+}
+
+.header-icon-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	border-radius: 10px;
+	border: 2px solid rgba(255, 255, 255, 0.3);
+	background-color: rgba(255, 255, 255, 0.1);
+	color: #ffffff;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	position: relative;
+}
+
+.header-icon-button:hover {
+	background: rgba(255, 255, 255, 0.2);
+	border-color: rgba(255, 255, 255, 0.5);
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+.notification-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.header-profile-button {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 6px 14px 6px 6px;
+	border-radius: 24px;
+	border: 2px solid rgba(255, 255, 255, 0.3);
+	background-color: rgba(255, 255, 255, 0.15);
+	color: #ffffff;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.header-profile-button:hover {
+	background: rgba(255, 255, 255, 0.25);
+	border-color: rgba(255, 255, 255, 0.5);
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+.profile-avatar {
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 700;
+	font-size: 16px;
+	color: #ffffff;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.profile-username {
+	font-size: 14px;
+	font-weight: 600;
+	color: #ffffff;
+	white-space: nowrap;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+	.header-right {
+		gap: 8px;
+	}
+
+	.nav-button-text {
+		display: none;
+	}
+
+	.header-nav-button {
+		padding: 10px;
+		min-width: 44px;
+	}
+
+	.profile-username {
+		display: none;
+	}
+
+	.header-profile-button {
+		padding: 6px;
+		border-radius: 50%;
 	}
 }

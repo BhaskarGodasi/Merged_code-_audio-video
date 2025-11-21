@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { NAV_LINKS } from '../../utils/constants';
 import { useAuth } from '../../contexts/AuthContext';
 import './Sidebar.css';
@@ -7,6 +8,8 @@ import './Sidebar.css';
 const Sidebar = ({ isOpen, onLinkClick, onToggle }) => {
 	const { user, logout } = useAuth();
 	const navigate = useNavigate();
+	const location = useLocation();
+	const isVideoDashboard = location.pathname.startsWith('/video-dashboard');
 
 	// Filter nav links based on user role
 	const getFilteredLinks = () => {
@@ -39,11 +42,21 @@ const Sidebar = ({ isOpen, onLinkClick, onToggle }) => {
 			<div className="sidebar-brand" style={{ display: 'flex', alignItems: 'center', justifyContent: isOpen ? 'space-between' : 'center' }}>
 				{isOpen ? (
 					<div className="brand-content" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-						<img src="/logo.ico" alt="logo" className="app-logo" />
-						<span className={"app-title"}>Ninja Smart Audio</span>
+						<img
+							src="./NMC-Logo.png"
+							alt="logo"
+							className="app-logo"
+						/>
+						<span className={"app-title"}>
+							{isVideoDashboard ? "Ninja Media" : "Ninja Smart Audio"}
+						</span>
 					</div>
 				) : (
-					<img src="/logo.ico" alt="logo" className="app-logo-collapsed" />
+					<img
+						src="./NMC-Logo.png"
+						alt="logo"
+						className="app-logo-collapsed"
+					/>
 				)}
 				<button
 					type="button"
@@ -55,10 +68,10 @@ const Sidebar = ({ isOpen, onLinkClick, onToggle }) => {
 					{isOpen ? '«' : '»'}
 				</button>
 			</div>
-			
+
 			{user && isOpen && (
 				<div className="sidebar-user-info">
-					<div className="user-role-badge" style={{ 
+					<div className="user-role-badge" style={{
 						backgroundColor: user.role === 'superadmin' ? '#dc3545' : user.role === 'admin' ? '#fd7e14' : '#0d6efd',
 						color: 'white',
 						padding: '4px 8px',
@@ -115,8 +128,8 @@ Sidebar.propTypes = {
 };
 
 Sidebar.defaultProps = {
-	onLinkClick: () => {},
-	onToggle: () => {},
+	onLinkClick: () => { },
+	onToggle: () => { },
 };
 
 export default Sidebar;

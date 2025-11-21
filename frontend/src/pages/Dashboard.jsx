@@ -107,7 +107,7 @@ const Dashboard = () => {
 		<div className="dashboard-container">
 			<div className="dashboard-header">
 				<div className="header-content">
-					<h2 className="dashboard-title">
+					<h2 className="dashboard-title1">
 						{isClientUser ? `Welcome, ${user?.username || 'Brand'}` : 'Dashboard Overview'}
 					</h2>
 					{isClientUser && (

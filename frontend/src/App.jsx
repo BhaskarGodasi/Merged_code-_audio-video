@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import Sidebar from './components/common/Sidebar';
@@ -7,6 +7,8 @@ import Header from './components/common/Header';
 import ToastContainer from './components/common/ToastContainer';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import CentralizedDashboard from './pages/CentralizedDashboard';
+import VideoDashboard from './pages/VideoDashboard';
 import SendAds from './pages/SendAds';
 import AddToMultipleDevices from './pages/AddToMultipleDevices';
 import LiveRelay from './pages/LiveRelay';
@@ -34,14 +36,21 @@ function AppContent() {
     setSidebarOpen((prev) => !prev);
   };
 
+  const location = useLocation();
+  const isDashboardSelect = location.pathname === '/';
+
   return (
     <div className="app-shell">
-      <Sidebar isOpen={sidebarOpen} onLinkClick={handleNavLinkClick} onToggle={handleSidebarToggle} />
+      {!isDashboardSelect && (
+        <Sidebar isOpen={sidebarOpen} onLinkClick={handleNavLinkClick} onToggle={handleSidebarToggle} />
+      )}
       <div className="app-main">
-        <Header onToggleSidebar={handleSidebarToggle} />
-        <div className="app-content">
+        {!isDashboardSelect && <Header onToggleSidebar={handleSidebarToggle} />}
+        <div className={`app-content ${isDashboardSelect ? 'full-screen-content' : ''}`}>
           <Routes>
-            <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="/" element={<ProtectedRoute><CentralizedDashboard /></ProtectedRoute>} />
+            <Route path="/video-dashboard" element={<ProtectedRoute><VideoDashboard /></ProtectedRoute>} />
+            <Route path="/audio-dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/send-ads" element={<ProtectedRoute allowedRoles={['admin', 'superadmin']}><SendAds /></ProtectedRoute>} />
             <Route path="/add-to-multiple-devices" element={<ProtectedRoute allowedRoles={['admin', 'superadmin']}><AddToMultipleDevices /></ProtectedRoute>} />
             <Route path="/live-relay" element={<ProtectedRoute><LiveRelay /></ProtectedRoute>} />

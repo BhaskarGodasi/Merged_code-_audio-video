@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import LogTable from '../components/logs/LogTable';
+// import LogTable from '../components/logs/LogTable';
 import { logsApi } from '../services/api';
 
 const Logs = () => {
