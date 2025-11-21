@@ -8,10 +8,12 @@
   border-radius: 6px;
   transition: background 0.2s;
 }
+
 .sidebar-toggle-btn:hover {
   background: rgba(255, 255, 255, 0.15);
   color: #ffffff;
 }
+
 .sidebar {
   width: 260px;
   background: linear-gradient(180deg, #0f766e 0%, #0d6b69 50%, #0a5c63 100%);
@@ -56,23 +58,25 @@
 .sidebar-brand .app-title {
   font-size: 18px;
   line-height: 1;
-  white-space: normal; /* allow wrapping */
+  white-space: normal;
+  /* allow wrapping */
   word-break: break-word;
-  max-width: 160px; /* keep it within the brand area */
+  max-width: 160px;
+  /* keep it within the brand area */
 }
 
 /* Sidebar logo */
 .sidebar-brand .app-logo {
-  width: 36px;
-  height: 36px;
+  width: 55px;
+  height: 55px;
   object-fit: contain;
   border-radius: 6px;
 }
 
 /* Collapsed small logo */
 .app-logo-collapsed {
-  width: 28px;
-  height: 28px;
+  width: 45px;
+  height: 45px;
   object-fit: contain;
 }
 
@@ -92,23 +96,28 @@
   gap: 8px;
   flex: 1;
   overflow-y: auto;
-  overflow-x: hidden; /* ensure no horizontal scroll appears inside nav */
-  padding-right: 6px; /* give room for vertical scrollbar without pushing content */
+  overflow-x: hidden;
+  /* ensure no horizontal scroll appears inside nav */
+  padding-right: 6px;
+  /* give room for vertical scrollbar without pushing content */
 }
 
 /* Custom scrollbar for the sidebar nav (WebKit + Blink) */
 .sidebar-nav::-webkit-scrollbar {
   width: 8px;
 }
+
 .sidebar-nav::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .sidebar-nav::-webkit-scrollbar-thumb {
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
+
 .sidebar-nav::-webkit-scrollbar-thumb:hover {
   background-color: rgba(255, 255, 255, 0.3);
 }

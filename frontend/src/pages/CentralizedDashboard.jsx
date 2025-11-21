@@ -1,11 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { Music, Monitor, Zap, TrendingUp, Shield } from 'lucide-react';
 import './CentralizedDashboard.css';
 
 const CentralizedDashboard = () => {
     const navigate = useNavigate();
-    const { logout } = useAuth();
+    const { logout, user } = useAuth();
 
     const handleLogout = () => {
         logout();
@@ -14,44 +15,123 @@ const CentralizedDashboard = () => {
 
     return (
         <div className="centralized-dashboard">
-            <button className="dashboard-logout-btn" onClick={handleLogout} title="Logout">
-                ⏻ Logout
-            </button>
+            {/* Background */}
+            <div className="dashboard-bg">
+                <div className="gradient-orb orb-1"></div>
+                <div className="gradient-orb orb-2"></div>
+                <div className="gradient-orb orb-3"></div>
+            </div>
+
+            {/* Header */}
+            <div className="dashboard-header">
+                <div className="user-welcome">
+                    <span>Welcome back, <strong>{user?.username || 'User'}</strong></span>
+                </div>
+                <button className="dashboard-logout-btn" onClick={handleLogout}>
+                    <span className="logout-icon">⏻</span>
+                    <span>Logout</span>
+                </button>
+            </div>
+
             <div className="dashboard-content">
-                <h1 className="dashboard-title">Welcome to Ninja Media Ad Manager</h1>
-                <p className="dashboard-subtitle">Select your workspace to continue</p>
+                <div className="title-section">
+                    <h1 className="dashboard-title">
+                        <span className="title-gradient">Ninja Media</span>
+                        <br />
+                        <span className="title-light">Ad Manager</span>
+                    </h1>
+                    <p className="dashboard-subtitle">
+                        Choose your workspace to begin managing campaigns
+                    </p>
+                </div>
 
                 <div className="app-cards">
-                    <div className="app-card audio-card" onClick={() => navigate('/audio-dashboard')}>
-                        <div className="card-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-                                <line x1="12" y1="19" x2="12" y2="23"></line>
-                                <line x1="8" y1="23" x2="16" y2="23"></line>
-                            </svg>
+                    {/* Audio App Card */}
+                    <div
+                        className="app-card audio-card"
+                        onClick={() => navigate('/audio-dashboard')}
+                    >
+                        <div className="card-glow audio-glow"></div>
+                        <div className="card-header">
+                            <div className="card-icon-wrapper">
+                                <div className="icon-bg audio-icon-bg"></div>
+                                <Music className="card-icon" size={32} strokeWidth={2.5} />
+                            </div>
+                            <div className="card-badge">Popular</div>
                         </div>
-                        <h2>Audio App</h2>
-                        <p>Manage audio campaigns, devices, and jingles.</p>
-                        <div className="card-arrow">→</div>
+
+                        <h2 className="card-title">Audio Workspace</h2>
+                        <p className="card-description">
+                            Manage audio campaigns, devices, jingles, and broadcast schedules
+                        </p>
+
+                        <div className="card-features">
+                            <div className="feature-item">
+                                <Zap size={16} />
+                                <span>Real-time Broadcasting</span>
+                            </div>
+                            <div className="feature-item">
+                                <TrendingUp size={16} />
+                                <span>Campaign Analytics</span>
+                            </div>
+                            <div className="feature-item">
+                                <Shield size={16} />
+                                <span>Device Management</span>
+                            </div>
+                        </div>
+
+                        <div className="card-footer">
+                            <span className="card-cta">Enter Workspace</span>
+                            <div className="card-arrow">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M7 3L14 10L7 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="app-card video-card" onClick={() => navigate('/video-dashboard')}>
-                        <div className="card-icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
-                                <line x1="7" y1="2" x2="7" y2="22"></line>
-                                <line x1="17" y1="2" x2="17" y2="22"></line>
-                                <line x1="2" y1="12" x2="22" y2="12"></line>
-                                <line x1="2" y1="7" x2="7" y2="7"></line>
-                                <line x1="2" y1="17" x2="7" y2="17"></line>
-                                <line x1="17" y1="17" x2="22" y2="17"></line>
-                                <line x1="17" y1="7" x2="22" y2="7"></line>
-                            </svg>
+                    {/* Video App Card */}
+                    <div
+                        className="app-card video-card"
+                        onClick={() => navigate('/video-dashboard')}
+                    >
+                        <div className="card-glow video-glow"></div>
+                        <div className="card-header">
+                            <div className="card-icon-wrapper">
+                                <div className="icon-bg video-icon-bg"></div>
+                                <Monitor className="card-icon" size={32} strokeWidth={2.5} />
+                            </div>
+                            <div className="card-badge video-badge">Coming Soon</div>
                         </div>
-                        <h2>Video App</h2>
-                        <p>Manage video content, displays, and schedules.</p>
-                        <div className="card-arrow">→</div>
+
+                        <h2 className="card-title">Video Workspace</h2>
+                        <p className="card-description">
+                            Control LED displays, video content, and digital signage networks
+                        </p>
+
+                        <div className="card-features">
+                            <div className="feature-item">
+                                <Zap size={16} />
+                                <span>LED Display Control</span>
+                            </div>
+                            <div className="feature-item">
+                                <TrendingUp size={16} />
+                                <span>Content Scheduling</span>
+                            </div>
+                            <div className="feature-item">
+                                <Shield size={16} />
+                                <span>Network Management</span>
+                            </div>
+                        </div>
+
+                        <div className="card-footer">
+                            <span className="card-cta">Enter Workspace</span>
+                            <div className="card-arrow">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M7 3L14 10L7 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -8,16 +8,16 @@ const VideoDashboard = () => {
         <div style={{
             padding: '40px',
             textAlign: 'center',
-            color: '#fff',
+            color: '#100f0fff',
             minHeight: '100vh',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            background: '#1e1e2f'
+            background: '#f8f8f9ff'
         }}>
             <h1 style={{ fontSize: '2.5rem', marginBottom: '20px' }}>Video App Dashboard</h1>
-            <p style={{ fontSize: '1.2rem', color: '#9ca3af', marginBottom: '40px' }}>
+            <p style={{ fontSize: '1.2rem', color: '#e81d0bff', marginBottom: '40px' }}>
                 This feature is currently under development.
             </p>
             <button
@@ -25,7 +25,7 @@ const VideoDashboard = () => {
                 style={{
                     padding: '12px 24px',
                     fontSize: '1rem',
-                    backgroundColor: '#a78bfa',
+                    backgroundColor: '#a98dfdff',
                     color: 'white',
                     border: 'none',
                     borderRadius: '8px',
